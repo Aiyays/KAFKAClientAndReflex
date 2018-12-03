@@ -1,0 +1,13 @@
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\bin\Debug\ProvincialPrimaryHealthCare.dll
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\bin\Debug\ProvincialPrimaryHealthCare.pdb
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\bin\Debug\CommonTool.dll
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\bin\Debug\Model.dll
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\bin\Debug\Newtonsoft.Json.dll
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\bin\Debug\CommonTool.pdb
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\bin\Debug\Model.pdb
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\bin\Debug\Newtonsoft.Json.xml
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\obj\Debug\ProvincialPrimaryHealthCare.csprojAssemblyReference.cache
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\obj\Debug\ProvincialPrimaryHealthCare.csproj.CoreCompileInputs.cache
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\obj\Debug\ProvincialPrimaryHealthCare.csproj.CopyComplete
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\obj\Debug\ProvincialPrimaryHealthCare.dll
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialPrimaryHealthCare\obj\Debug\ProvincialPrimaryHealthCare.pdb

@@ -1,0 +1,17 @@
+F:\联颐集团科技有限公司\SynchronousServer\SynchronousServer\ProvincialSecurity\bin\Debug\ProvincialSecurity.dll
+F:\联颐集团科技有限公司\SynchronousServer\SynchronousServer\ProvincialSecurity\bin\Debug\ProvincialSecurity.pdb
+F:\联颐集团科技有限公司\SynchronousServer\SynchronousServer\ProvincialSecurity\bin\Debug\Model.dll
+F:\联颐集团科技有限公司\SynchronousServer\SynchronousServer\ProvincialSecurity\bin\Debug\Model.pdb
+F:\联颐集团科技有限公司\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.csproj.CoreCompileInputs.cache
+F:\联颐集团科技有限公司\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.csproj.CopyComplete
+F:\联颐集团科技有限公司\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.dll
+F:\联颐集团科技有限公司\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.pdb
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\bin\Debug\ProvincialSecurity.dll
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\bin\Debug\ProvincialSecurity.pdb
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\bin\Debug\Model.dll
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\bin\Debug\Model.pdb
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.csprojAssemblyReference.cache
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.csproj.CoreCompileInputs.cache
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.csproj.CopyComplete
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.dll
+F:\本地Git获取程序\SynchronousServer\SynchronousServer\ProvincialSecurity\obj\Debug\ProvincialSecurity.pdb
