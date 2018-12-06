@@ -44,10 +44,6 @@ namespace SCProvinceHygiene
             {
 
                 JObject @object = JObject.Parse(transmitInfoModel.Data);
-                if (@object["doctorName"].ToString().Equals("杨明"))//-----------------==-----------------------
-                {
-                    return;
-                }
                 Model.UEEstimateModel controlModel = FunctionTool.UnificationEstimate(transmitInfoModel, Model.SlowDisEnum.糖尿病);
                 //判断是否信息填充成功
                 if (!controlModel.Status)
@@ -103,6 +99,39 @@ namespace SCProvinceHygiene
         /// <param name="transmitInfoModel"></param>
         public void HealthyUser(Model.TransmitInfoModel transmitInfoModel)
         {
+            JObject @object = JObject.Parse(transmitInfoModel.Data);
+            Model.UEEstimateModel controlModel = FunctionTool.UnificationEstimate(transmitInfoModel, Model.SlowDisEnum.NULL);
+            //判断是否信息填充成功
+            if (!controlModel.Status)
+            {
+                //回执
+                transmitInfoModel.SendReceMsg(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.TableName, controlModel.ReceptID, "0", controlModel.Result, transmitInfoModel.BasicInfo["ZNJTYS_Aes"].ToString());
+                return;
+            }
+            JObject obj = null;
+            //第三方平台拉取下来的Josn
+            JObject dist_Obj = null;
+            //判断是否需要更新
+            JObject healthyObj = SCProvince_Api.QueryHealthyUserList(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), controlModel.PersonID);
+            if (healthyObj.ToString().Contains(@object["checkDate"].ToString())) {
+                string id = healthyObj["Msg"][0]["ID"].ToString();
+                dist_Obj = SCProvince_Api.QueryHealthyUser(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), id);
+                string replObj = dist_Obj["Msg"].ToString().Replace("vaccList", "Vacc").Replace("drugUseList","Drug").Replace("hosList", "Hospt").Replace("master", "Master").Replace("lifeStyle", "LifeStyle").Replace("body", "Body").Replace("hiv", "ExamHiv").Replace("organ", "Organ").Replace("woman", "Woman").Replace("labora", "Labor").Replace("chsCon", "ChsCons").Replace("problems", "Problems").Replace("scaleScore", "ScaleScore");
+                obj = JObject.Parse(replObj);
+            }
+            //判断是否需要更新
+            obj = obj is null ? JObject.Parse(PreliminaryJson.HealthyUserTrans) : obj;
+            //添加 
+            JObject ject = FunctionTool.UnifyTrans(obj, controlModel, transmitInfoModel.BasicInfo, @object, Trans_List.HealthyUserTrans.Trans);
+            //在第三方平台新增或者修改
+            JObject ret = SCProvince_Api.AddOrUpdateHealthy(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), ject);
+            //上传成功
+            if (ret["Msg"].ToString().Contains("成功"))
+            {//记录到数据库
+                CommonTool.SqlServer_Control.DataBackup_WriteLine(dist_Obj is null ? "" : dist_Obj.ToString(), transmitInfoModel.Data, obj.ToString(), transmitInfoModel.ZNJTYS_Hid, DateTime.Now.ToString("yyyy-MM-dd"), ret.ToString(), "HealthyUser");
+            }//上传失败
+            else//记录到数据库
+                CommonTool.SqlServer_Control.UpdateErro(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.Data, ret.ToString(), "HealthyUser");
 
         }
 
@@ -139,7 +168,41 @@ namespace SCProvinceHygiene
         /// <param name="transmitInfoModel"></param>
         public void FollowNewBaBy(Model.TransmitInfoModel transmitInfoModel)
         {
+            JObject @object = JObject.Parse(transmitInfoModel.Data);
+            Model.UEEstimateModel controlModel = FunctionTool.UnificationEstimate(transmitInfoModel, Model.SlowDisEnum.NULL);
+            //判断是否信息填充成功
+            if (!controlModel.Status)
+            {
+                //回执
+                transmitInfoModel.SendReceMsg(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.TableName, controlModel.ReceptID, "0", controlModel.Result, transmitInfoModel.BasicInfo["ZNJTYS_Aes"].ToString());
+                return;
 
+            }
+            JObject obj = null;
+            //第三方平台拉取下来的Josn
+            JObject dist_Obj = null;
+            //判断是否需要更新
+            JObject newbabyObj = SCProvince_Api.QueryNewBaby(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), controlModel.PersonID);
+            if (newbabyObj.ToString().Contains(@object["checkDate"].ToString()))
+            {
+                string id = newbabyObj["Msg"][0]["ID"].ToString();
+                dist_Obj = SCProvince_Api.QueryNewBabyDetail(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), id);
+                string replObj = dist_Obj["Msg"].ToString();
+                obj = JObject.Parse(replObj);
+            }
+            //判断是否需要更新
+            obj = obj is null ? JObject.Parse(PreliminaryJson.FollowNewBabyTrans) : obj;
+            //添加 
+            JObject ject = FunctionTool.UnifyTrans(obj, controlModel, transmitInfoModel.BasicInfo, @object, Trans_List.FollowNewBabyTrans.Trans);
+            //在第三方平台新增或者修改
+            JObject ret = SCProvince_Api.AddOrUpdateNewBaby(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), ject);
+            //上传成功
+            if (ret["Msg"].ToString().Contains("成功"))
+            {//记录到数据库
+                CommonTool.SqlServer_Control.DataBackup_WriteLine(dist_Obj is null ? "" : dist_Obj.ToString(), transmitInfoModel.Data, obj.ToString(), transmitInfoModel.ZNJTYS_Hid, DateTime.Now.ToString("yyyy-MM-dd"), ret.ToString(), "FollowNewBaby");
+            }//上传失败
+            else//记录到数据库
+                CommonTool.SqlServer_Control.UpdateErro(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.Data, ret.ToString(), "FollowNewBaby");
         }
 
         /// <summary>
@@ -157,7 +220,41 @@ namespace SCProvinceHygiene
         /// <param name="transmitInfoModel"></param>
         public void FollowOneBaby(Model.TransmitInfoModel transmitInfoModel)
         {
+            JObject @object = JObject.Parse(transmitInfoModel.Data);
+            Model.UEEstimateModel controlModel = FunctionTool.UnificationEstimate(transmitInfoModel, Model.SlowDisEnum.NULL);
+            //判断是否信息填充成功
+            if (!controlModel.Status)
+            {
+                //回执
+                transmitInfoModel.SendReceMsg(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.TableName, controlModel.ReceptID, "0", controlModel.Result, transmitInfoModel.BasicInfo["ZNJTYS_Aes"].ToString());
+                return;
 
+            }
+            JObject obj = null;
+            //第三方平台拉取下来的Josn
+            JObject dist_Obj = null;
+            //判断是否需要更新
+            JObject newbabyObj = SCProvince_Api.QueryFollowOneBaby(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), @object["agetype"].ToString(), controlModel.PersonID);
+            if (newbabyObj.ToString().Contains(@object["followdate"].ToString()))
+            {
+                string id = newbabyObj["Msg"][0]["ID"].ToString();
+                dist_Obj = SCProvince_Api.QueryFollowOneBabyDetail(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), id);
+                string replObj = dist_Obj["Msg"].ToString();
+                obj = JObject.Parse(replObj);
+            }
+            //判断是否需要更新
+            obj = obj is null ? JObject.Parse(PreliminaryJson.FollowOneBabyTrans) : obj;
+            //添加 
+            JObject ject = FunctionTool.UnifyTrans(obj, controlModel, transmitInfoModel.BasicInfo, @object, Trans_List.FollowOneBabyTrans.Trans);
+            //在第三方平台新增或者修改
+            JObject ret = SCProvince_Api.AddOrUpdateFollowOneBaby(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), ject);
+            //上传成功
+            if (ret["Msg"].ToString().Contains("成功"))
+            {//记录到数据库
+                CommonTool.SqlServer_Control.DataBackup_WriteLine(dist_Obj is null ? "" : dist_Obj.ToString(), transmitInfoModel.Data, obj.ToString(), transmitInfoModel.ZNJTYS_Hid, DateTime.Now.ToString("yyyy-MM-dd"), ret.ToString(), "FollowOneBaby");
+            }//上传失败
+            else//记录到数据库
+                CommonTool.SqlServer_Control.UpdateErro(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.Data, ret.ToString(), "FollowOneBaby");
         }
 
         /// <summary>
@@ -166,7 +263,45 @@ namespace SCProvinceHygiene
         /// <param name="transmitInfoModel"></param>
         public void FollowOnePulMonary(Model.TransmitInfoModel transmitInfoModel)
         {
+            JObject @object = JObject.Parse(transmitInfoModel.Data);
+            Model.UEEstimateModel controlModel = FunctionTool.UnificationEstimate(transmitInfoModel, Model.SlowDisEnum.结核病);
+            //判断是否信息填充成功
+            if (!controlModel.Status)
+            {
+                //回执
+                transmitInfoModel.SendReceMsg(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.TableName, controlModel.ReceptID, "0", controlModel.Result, transmitInfoModel.BasicInfo["ZNJTYS_Aes"].ToString());
+                return;
+            }
+            JObject obj = null;
+            //第三方平台拉取下来的Josn
+            JObject dist_Obj = null;
+            //判断是否需要更新
+            JObject iSUpobj = SCProvince_Api.QueryBGM(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["RegionCode"].ToString(), controlModel.CardID, transmitInfoModel.BasicInfo["ProductCode"].ToString(), @object["followdate"].ToString());
+            if (!iSUpobj["Total"].ToString().Equals("0"))
+            {
 
+                string iD = iSUpobj["Msg"][0]["ID"].ToString();
+                dist_Obj = SCProvince_Api.QueryBgmRecordInfo(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), iD);
+                //将拉取到的数据 
+                string replObj = dist_Obj["Msg"].ToString().Replace("cmDiabetes", "CmDiab").Replace("examBody", "Body").Replace("examLaboratory", "Labora").Replace("examLifestyle", "Lifestyle").Replace("drugJson", "Drug").Replace("insulindrug", "Insulindrug").Replace("otherJson", "Other").Replace("examOrgan", "Organ");
+                //赋值替换
+                obj = JObject.Parse(replObj);
+                obj.Add("ProductCode", transmitInfoModel.BasicInfo["ProductCode"].ToString());
+            }
+
+            //判断是否需要更新
+            obj = obj is null ? JObject.Parse(PreliminaryJson.FollowBgmTrans) : obj;
+            //合并数据
+            JObject ject = FunctionTool.UnifyTrans(obj, controlModel, transmitInfoModel.BasicInfo, @object, Trans_List.FollowOnePulMonaryTrans.Trans);
+            //在第三方平台新增或者修改
+            JObject ret = SCProvince_Api.AddUpdateBgmInfo(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), ject);
+            //上传成功
+            if (ret["Msg"].ToString().Contains("成功"))
+                //记录到数据库
+                CommonTool.SqlServer_Control.DataBackup_WriteLine(dist_Obj is null ? "" : dist_Obj.ToString(), transmitInfoModel.Data, obj.ToString(), transmitInfoModel.ZNJTYS_Hid, DateTime.Now.ToString("yyyy-MM-dd"), ret.ToString(), "FollowOnePulMonary");
+            //上传失败
+            else//记录到数据库
+                CommonTool.SqlServer_Control.UpdateErro(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.Data, ret.ToString(), "FollowOnePulMonary");
         }
 
         /// <summary>
@@ -193,7 +328,41 @@ namespace SCProvinceHygiene
         /// <param name="transmitInfoModel"></param>
         public void FollowThreeBaby(Model.TransmitInfoModel transmitInfoModel)
         {
+            JObject @object = JObject.Parse(transmitInfoModel.Data);
+            Model.UEEstimateModel controlModel = FunctionTool.UnificationEstimate(transmitInfoModel, Model.SlowDisEnum.NULL);
+            //判断是否信息填充成功
+            if (!controlModel.Status)
+            {
+                //回执
+                transmitInfoModel.SendReceMsg(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.TableName, controlModel.ReceptID, "0", controlModel.Result, transmitInfoModel.BasicInfo["ZNJTYS_Aes"].ToString());
+                return;
 
+            }
+            JObject obj = null;
+            //第三方平台拉取下来的Josn
+            JObject dist_Obj = null;
+            //判断是否需要更新
+            JObject newbabyObj = SCProvince_Api.QueryFollowThreeBaby(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), @object["agetype"].ToString(), controlModel.PersonID);
+            if (newbabyObj.ToString().Contains(@object["followdate"].ToString()))
+            {
+                string id = newbabyObj["Msg"][0]["ID"].ToString();
+                dist_Obj = SCProvince_Api.QueryFollowThreeBabyDetail(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), id);
+                string replObj = dist_Obj["Msg"].ToString();
+                obj = JObject.Parse(replObj);
+            }
+            //判断是否需要更新
+            obj = obj is null ? JObject.Parse(PreliminaryJson.FollowThreeBabyTrans) : obj;
+            //添加 
+            JObject ject = FunctionTool.UnifyTrans(obj, controlModel, transmitInfoModel.BasicInfo, @object, Trans_List.FollowThreeBabyTrans.Trans);
+            //在第三方平台新增或者修改
+            JObject ret = SCProvince_Api.AddOrUpdateFollowThreeBaby(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), ject);
+            //上传成功
+            if (ret["Msg"].ToString().Contains("成功"))
+            {//记录到数据库
+                CommonTool.SqlServer_Control.DataBackup_WriteLine(dist_Obj is null ? "" : dist_Obj.ToString(), transmitInfoModel.Data, obj.ToString(), transmitInfoModel.ZNJTYS_Hid, DateTime.Now.ToString("yyyy-MM-dd"), ret.ToString(), "FollowThreeBaby");
+            }//上传失败
+            else//记录到数据库
+                CommonTool.SqlServer_Control.UpdateErro(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.Data, ret.ToString(), "FollowThreeBaby");
         }
 
         /// <summary>
@@ -211,7 +380,41 @@ namespace SCProvinceHygiene
         /// <param name="transmitInfoModel"></param>
         public void FollowTwoBaby(Model.TransmitInfoModel transmitInfoModel)
         {
+            JObject @object = JObject.Parse(transmitInfoModel.Data);
+            Model.UEEstimateModel controlModel = FunctionTool.UnificationEstimate(transmitInfoModel, Model.SlowDisEnum.NULL);
+            //判断是否信息填充成功
+            if (!controlModel.Status)
+            {
+                //回执
+                transmitInfoModel.SendReceMsg(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.TableName, controlModel.ReceptID, "0", controlModel.Result, transmitInfoModel.BasicInfo["ZNJTYS_Aes"].ToString());
+                return;
 
+            }
+            JObject obj = null;
+            //第三方平台拉取下来的Josn
+            JObject dist_Obj = null;
+            //判断是否需要更新
+            JObject newbabyObj = SCProvince_Api.QueryFollowTwoBaby(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), @object["agetype"].ToString(), controlModel.PersonID);
+            if (newbabyObj.ToString().Contains(@object["followdate"].ToString()))
+            {
+                string id = newbabyObj["Msg"][0]["ID"].ToString();
+                dist_Obj = SCProvince_Api.QueryFollowTwoBabyDetail(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), id);
+                string replObj = dist_Obj["Msg"].ToString();
+                obj = JObject.Parse(replObj);
+            }
+            //判断是否需要更新
+            obj = obj is null ? JObject.Parse(PreliminaryJson.FollowTwoBabyTrans) : obj;
+            //添加 
+            JObject ject = FunctionTool.UnifyTrans(obj, controlModel, transmitInfoModel.BasicInfo, @object, Trans_List.FollowTwoBabyTrans.Trans);
+            //在第三方平台新增或者修改
+            JObject ret = SCProvince_Api.AddOrUpdateFollowTwoBaby(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), ject);
+            //上传成功
+            if (ret["Msg"].ToString().Contains("成功"))
+            {//记录到数据库
+                CommonTool.SqlServer_Control.DataBackup_WriteLine(dist_Obj is null ? "" : dist_Obj.ToString(), transmitInfoModel.Data, obj.ToString(), transmitInfoModel.ZNJTYS_Hid, DateTime.Now.ToString("yyyy-MM-dd"), ret.ToString(), "FollowTwoBaby");
+            }//上传失败
+            else//记录到数据库
+                CommonTool.SqlServer_Control.UpdateErro(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.Data, ret.ToString(), "FollowTwoBaby");
         }
 
         /// <summary>

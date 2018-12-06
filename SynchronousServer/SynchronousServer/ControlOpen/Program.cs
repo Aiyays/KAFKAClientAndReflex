@@ -17,16 +17,10 @@ namespace SynchronousServer
 {
     class Program
     {
-        enum MyEnum
-        {
-            糖尿病,
-            高血压,
-            智障,
-        }
+  
         static void Main(string[] args)
         {
- 
-
+          
             //给数据库地址赋值         
             CommonTool.ControlSqlserver.connectionString = ConfigurationManager.AppSettings["SqlserverPath"] + string.Format("Password = {0};", CommonTool.DEncrypt.Decrypt(ConfigurationManager.AppSettings["password"], ConfigurationManager.AppSettings["path"]));
 
@@ -49,16 +43,18 @@ namespace SynchronousServer
 
         }
 
-
+        /// <summary>
+        /// 转换类
+        /// </summary>
+        /// <param name="transModel"></param>
+        /// <returns></returns>
         public static TransModel TransModel(TransModel transModel)
         {
             if (transModel.Value.GetType().Name.Equals("JArray"))
                 transModel.Value = new JArray();
             else
                 transModel.Value = "";
-            
             return transModel;
-
         }
 
 

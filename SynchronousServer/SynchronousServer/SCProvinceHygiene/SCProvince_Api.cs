@@ -201,7 +201,7 @@ namespace SCProvinceHygiene
 
 
         #region 糖尿病
-       
+
         /// <summary>
         ///  根据个人ID查询糖尿病
         /// </summary>
@@ -216,7 +216,7 @@ namespace SCProvinceHygiene
         public static JObject QueryBGM(string url, string regionCode, string cardID, string productCode, string times, string pageSize = "100", string pageIndex = "0")
         {
             //将时间或者时间戳转换成DateTime格式
-            //times = "2018-11-19";
+            times = "2018-11-19";
             DateTime date = Int64.TryParse(times, out long a) ? DateTime.Parse(CommonTool.ControlTime.GetDateTime(long.Parse(times) / 1000).ToString()) : DateTime.Parse(times);
             JObject ret = null;
             string type = "59-7";
@@ -226,7 +226,6 @@ namespace SCProvinceHygiene
                 ["ProductCode"] = productCode,
                 ["RegionCode"] = regionCode,
                 ["KeyValueType"] = "2",
-                 //["KeyValue"] = "510411199804055018",
                 ["KeyValue"] = cardID,
                 ["StartFollowupDate"] = date.AddDays(-1).ToString("yyyy-MM-dd"),
                 ["EndFollowupDate"] = date.AddDays(+1).ToString("yyyy-MM-dd"),
@@ -267,8 +266,508 @@ namespace SCProvinceHygiene
         /// <param name="url"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static JObject AddUpdateBgmInfo(string url, JObject obj) => CommonUnified(url,"59-2",obj);
-         
+        public static JObject AddUpdateBgmInfo(string url, JObject obj) => CommonUnified(url, "59-2", obj);
+
         #endregion
+
+        #region 肺结核随访
+
+
+
+        /// <summary>
+        /// 肺结核查询
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static JObject QueryPulMonary(string url, string personID,string productCode,string id) => CommonUnified(url, "67-18", new JObject() {
+            { "",""}
+        });
+
+
+
+        #endregion
+
+        #region 健康体检表
+        /// <summary>
+        /// 根据PersonID查询健康体检时间列表
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="ProductCode"></param>
+        /// <param name="PersonID"></param>
+        public static JObject QueryHealthyUserList(string url, string ProductCode, string PersonID) {
+            string type = "56-6";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = ProductCode,
+                ["PersonID"] = PersonID,
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, PersonID + ret);
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 根据随访ID查询个人健康体检记录列表
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="ProductCode"></param>
+        /// <param name="MtID"></param>
+        /// <returns></returns>
+        public static JObject QueryHealthyUser(string url, string ProductCode, string MtID) {
+            string type = "56-4";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = ProductCode,
+                ["MtID"] = MtID,
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, MtID + ret);
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 新增或修改体检表
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static JObject AddOrUpdateHealthy(string url, JObject obj) {
+            string type = "56-3";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, obj.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, obj.ToString() + ret);
+            }
+            return ret;
+        }
+        #endregion
+        #region 新生儿
+        /// <summary>
+        /// 查询新生儿档案
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="persionId"></param>
+        /// <param name="productCode"></param>
+        /// <returns></returns>
+        public static JObject QueryNewBaby(string url, string persionId, string productCode) {
+            string type = "62-1";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = productCode,
+                ["PersonID"] = persionId,
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, persionId + ret);
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 查询新生儿体检详情
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="productCode"></param>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static JObject QueryNewBabyDetail(string url, string productCode, string ID) {
+            string type = "62-4";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = productCode,
+                ["ID"] = ID,
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, ID + ret);
+            }
+            return ret;
+        }
+        /// <summary>
+        /// 新增或修改新生儿随访表
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static JObject AddOrUpdateNewBaby(string url, JObject obj) {
+            string type = "62-5";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, obj.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, obj["Person"]["CardID"].ToString() + ret);
+            }
+            return ret;
+        }
+        #endregion
+        #region 一岁内儿童
+        /// <summary>
+        /// 查询1岁内儿童随访列表
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="type"></param>
+        /// <param name="pruductCode"></param>
+        /// <param name="ageType"></param>
+        /// <param name="persionID"></param>
+        /// <returns></returns>
+        public static JObject QueryFollowOneBaby(string url, string pruductCode,string ageType,string persionID) {
+            string type = "62-7";
+            string age = "";
+            switch (ageType) {
+                case "1":
+                    age = "2";
+                    break;
+                case "3":
+                    age = "3";
+                    break;
+                case "6":
+                    age = "4";
+                    break;
+                case "8":
+                    age = "5";
+                    break;
+
+            }
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = pruductCode,
+                ["PersonID"] = persionID,
+                ["AgeType"] = age
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, persionID + ret);
+            }
+            return ret;
+
+        }
+        /// <summary>
+        /// 查询1岁内儿童随访详情
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="productCode"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static JObject QueryFollowOneBabyDetail(string url, string productCode, string id) {
+            string type = "62-8";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = productCode,
+                ["ID"] = id
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, id + ret);
+            }
+            return ret;
+
+        }
+        /// <summary>
+        /// 新增或修改1岁内儿童随访
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static JObject AddOrUpdateFollowOneBaby(string url,JObject obj) {
+            string type = "62-9";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, obj.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, obj.ToString() + ret);
+            }
+            return ret;
+        }
+
+        #endregion
+        #region 二岁内儿童
+        /// <summary>
+        /// 查询2岁内儿童随访列表
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="type"></param>
+        /// <param name="pruductCode"></param>
+        /// <param name="ageType"></param>
+        /// <param name="persionID"></param>
+        /// <returns></returns>
+        public static JObject QueryFollowTwoBaby(string url, string pruductCode, string ageType, string persionID)
+        {
+            string type = "62-11";
+            string age = "";
+            switch (ageType)
+            {
+                case "12":
+                    age = "6";
+                    break;
+                case "18":
+                    age = "7";
+                    break;
+                case "24":
+                    age = "8";
+                    break;
+                case "30":
+                    age = "9";
+                    break;
+
+            }
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = pruductCode,
+                ["PersonID"] = persionID,
+                ["AgeType"] = age
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, persionID + ret);
+            }
+            return ret;
+
+        }
+        /// <summary>
+        /// 查询2岁内儿童随访详情
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="productCode"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static JObject QueryFollowTwoBabyDetail(string url, string productCode, string id)
+        {
+            string type = "62-12";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = productCode,
+                ["ID"] = id
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, id + ret);
+            }
+            return ret;
+
+        }
+        /// <summary>
+        /// 新增或修改2岁内儿童随访
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static JObject AddOrUpdateFollowTwoBaby(string url, JObject obj)
+        {
+            string type = "62-13";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, obj.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, obj.ToString() + ret);
+            }
+            return ret;
+        }
+
+        #endregion
+        #region 三岁内儿童
+        /// <summary>
+        /// 查询3岁内儿童随访列表
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="type"></param>
+        /// <param name="pruductCode"></param>
+        /// <param name="ageType"></param>
+        /// <param name="persionID"></param>
+        /// <returns></returns>
+        public static JObject QueryFollowThreeBaby(string url, string pruductCode, string ageType, string persionID)
+        {
+            string type = "62-11";
+            string age = "";
+            switch (ageType)
+            {
+                case "3":
+                    age = "10";
+                    break;
+                case "4":
+                    age = "11";
+                    break;
+                case "5":
+                    age = "12";
+                    break;
+                case "6":
+                    age = "13";
+                    break;
+
+            }
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = pruductCode,
+                ["PersonID"] = persionID,
+                ["AgeType"] = age
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, persionID + ret);
+            }
+            return ret;
+
+        }
+        /// <summary>
+        /// 查询3岁内儿童随访详情
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="productCode"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static JObject QueryFollowThreeBabyDetail(string url, string productCode, string id)
+        {
+            string type = "62-15";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, new JObject
+            {
+                ["ProductCode"] = productCode,
+                ["ID"] = id
+            }.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, id + ret);
+            }
+            return ret;
+
+        }
+        /// <summary>
+        /// 新增或修改3岁内儿童随访
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static JObject AddOrUpdateFollowThreeBaby(string url, JObject obj)
+        {
+            string type = "62-16";
+            JObject ret = null;
+            string result = CommonTool.NetworkPush.WebserversPost(url, type, obj.ToString());
+            try
+            {
+                //尝试转换成JObject数据
+                ret = JObject.Parse(result);
+            }
+            catch (Exception ex)
+            {
+                //转换失败后
+                ret = new JObject() { result };
+                CommonTool.SqlServer_Control.Log_WriteLine(ex.Message, obj.ToString() + ret);
+            }
+            return ret;
+        }
+
+        #endregion
+
+
+
     }
 }

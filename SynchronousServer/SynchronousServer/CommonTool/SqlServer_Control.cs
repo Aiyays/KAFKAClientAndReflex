@@ -11,7 +11,7 @@ namespace CommonTool
 {
     public class SqlServer_Control
     {
-       
+
 
         /// <summary>
         /// 查询基础信息表
@@ -44,12 +44,12 @@ namespace CommonTool
         {
             var temp = (new StackTrace()).GetFrame(1).GetMethod();
             ///发生异常的类名+方法名
-            string AbnormalPosition = temp.ReflectedType.Name + "." + temp.Name;
-            
-
+            string abnormalPosition = temp.ReflectedType.Name + "." + temp.Name;
 
         }
 
+
+        
 
         /// <summary>
         /// 上传记录写入
@@ -61,9 +61,9 @@ namespace CommonTool
         /// <param name="controlTime">时间</param>
         /// <param name="uploadResults">上传结果</param>
         /// <param name="TableName"> </param>
-        public static void DataBackup_WriteLine(string dist_Data,string kafka_Data,string merge_Data,string hospID,string controlTime, string uploadResults, string TableName)
+        public static void DataBackup_WriteLine(string dist_Data, string kafka_Data, string merge_Data, string hospID, string controlTime, string uploadResults, string TableName)
         {
-            
+
         }
 
         /// <summary>
@@ -73,13 +73,14 @@ namespace CommonTool
         /// <param name="kafka_Data">kafka推送的JSon</param>
         /// <param name="controlTime">时间</param>
         /// <param name="erroInfo">错误信息</param>
-        public static void UpdateErro(string hid,string kafka_Data,string erroInfo,string tableName)
+        public static void UpdateErro(string hid, string kafka_Data, string erroInfo, string tableName)
         {
             //异常发生时间
             DateTime creatTime = DateTime.Now;
-            var temp = (new StackTrace()).GetFrame(1).GetMethod();
-            ///发生异常的类名+方法名
-            string AbnormalPosition = temp.ReflectedType.Name + "." + temp.Name;
+            var method = new StackTrace().GetFrame(1).GetMethod();
+            //调用此方法的类名+方法名
+            string abnormalPosition = method.ReflectedType.Name + "." + method.Name;
+
         }
 
 

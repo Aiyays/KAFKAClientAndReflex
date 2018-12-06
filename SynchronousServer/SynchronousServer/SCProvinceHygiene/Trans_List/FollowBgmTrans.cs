@@ -24,6 +24,32 @@ namespace SCProvinceHygiene.Trans_List
             {
                 switch (modelTest.Key)
                 {
+
+                    /**
+                     *  操作用户ID
+                     */
+                    case "CmDiab_UserID":
+                        modelTest.Value = modelTest.userInfo.DoctEmployeID;
+                        return modelTest;
+
+                    /**
+                     *个人ID
+                  */
+                    case "OrgID":
+
+
+                        modelTest.Value = modelTest.BasicInfo["ThirdParty_HID"].ToString(); ;
+                        return modelTest;
+
+
+                    /**
+                 *个人ID
+                 */
+                    case "CmDiab_PersonID":
+
+                        modelTest.Value = modelTest.userInfo.PersonID;
+                        return modelTest;
+
                     /**
                     * 随访日期
                     */

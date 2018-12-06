@@ -31,6 +31,16 @@ F:\卡夫卡服务器\synchronousserver\SynchronousServer\CommonTool\obj\Debug\C
 F:\卡夫卡服务器\synchronousserver\SynchronousServer\CommonTool\obj\Debug\CommonTool.csproj.CopyComplete
 F:\卡夫卡服务器\synchronousserver\SynchronousServer\CommonTool\obj\Debug\CommonTool.dll
 F:\卡夫卡服务器\synchronousserver\SynchronousServer\CommonTool\obj\Debug\CommonTool.pdb
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\CommonTool.dll
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\CommonTool.pdb
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\Model.dll
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\Newtonsoft.Json.dll
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\Model.pdb
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\Newtonsoft.Json.xml
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\obj\Debug\CommonTool.csprojResolveAssemblyReference.cache
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\obj\Debug\CommonTool.csproj.CoreCompileInputs.cache
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\obj\Debug\CommonTool.dll
+F:\E盘\KAFKA\SynchronousServer\SynchronousServer\CommonTool\obj\Debug\CommonTool.pdb
 F:\卡夫卡服务器\Git项目\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\CommonTool.dll
 F:\卡夫卡服务器\Git项目\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\CommonTool.pdb
 F:\卡夫卡服务器\Git项目\SynchronousServer\SynchronousServer\CommonTool\bin\Debug\Model.dll

@@ -200,7 +200,7 @@ namespace SCProvinceHygiene
                     if (item.Value.GetType().Name.Equals("JArray"))
                         ((JArray)@object[item.Key.Trim()]).Merge(model.Value);
                     else //赋值并返回
-                        @object[item.Key.Trim()] = item.Value.ToString().Equals("") ? model.Value: IsCoverfl_up.Equals("2")? model.Value:item.Value.ToString();
+                        @object[item.Key.Trim()] = item.Value.ToString().Equals("") ?  model.Value: item.Value.GetType().Name.Equals("JObject")?model.Value :IsCoverfl_up.Equals("2")? model.Value:item.Value;
                 }
                 catch (Exception ex)
                 {
@@ -227,13 +227,10 @@ namespace SCProvinceHygiene
             {
                 //判断是否需要帮助建立个人
                 string isAddPesonInfo = transmitInfoModel.BasicInfo["IsAddPesonInfo"].ToString();
-
                 //接受到的数据
                 JObject objInfo = JObject.Parse(transmitInfoModel.Data);
                 //回执ID
                 retModel.ReceptID = objInfo["id"].ToString();
-
-
                 //医生查询------最后改变了医生的姓名
                 JObject objDoct = SCProvince_Api.QueryDoctor(transmitInfoModel.BasicInfo["IISServerUrl"].ToString(), transmitInfoModel.BasicInfo["ProductCode"].ToString(), "王果"/* objInfo["doctorName"].ToString()*/);
                 //医生在省公卫查询不到
@@ -303,9 +300,7 @@ namespace SCProvinceHygiene
             {
                 CommonTool.SqlServer_Control.UpdateErro(transmitInfoModel.ZNJTYS_Hid, transmitInfoModel.Data, "发生异常" + ex.Message, transmitInfoModel.TableName);
                 retModel.Result = string.Format("发生异常" + ex.Message, transmitInfoModel.ZNJTYS_Hid, retModel.CardID, retModel.Name);
-                //CommonTool.
             }
-
             return retModel;
         }
 

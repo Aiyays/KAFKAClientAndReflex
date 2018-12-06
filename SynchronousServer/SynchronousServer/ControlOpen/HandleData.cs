@@ -37,7 +37,7 @@ namespace SynchronousServer
 
                 Console.WriteLine(string.Format("接受到表{0}的数据",tableName));
                 //数据
-                string data = info["data"].ToString().Replace(@"\", "").Replace("\"{", "{").Replace("\"[", "[").Replace("}\"", "}").Replace("]\"", "]").Trim('"');
+                string data = info["data"].ToString().Replace(@"\r\n","").Replace(@"\", "").Replace("\"{", "{").Replace("\"[", "[").Replace("}\"", "}").Replace("]\"", "]").Trim('"');
                 //上传信息
                 Model.TransmitInfoModel infoModel = new TransmitInfoModel()
                 {
